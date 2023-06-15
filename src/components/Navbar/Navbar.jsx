@@ -4,8 +4,9 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import { Container, Form, Icon, Navbar } from "react-bulma-components";
 import DropdownItem from "./DropdownItem.jsx";
+import CartWidget from "./CartWidget.jsx";
 
-const NavbarComponent = ({ menu }) => {
+const NavbarComponent = ({ menu, cartQuantity }) => {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -45,6 +46,7 @@ const NavbarComponent = ({ menu }) => {
                   </Navbar.Item>
                 )
               )}
+            <CartWidget quantity={cartQuantity} />
           </Navbar.Container>
         </Navbar.Menu>
       </Container>
@@ -70,7 +72,8 @@ NavbarComponent.propTypes = {
         url: PropTypes.string,
       })
     ),
-  }),
+  }).isRequired,
+  cartQuantity: PropTypes.number.isRequired,
 };
 
 export default NavbarComponent;

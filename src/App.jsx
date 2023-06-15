@@ -1,11 +1,13 @@
 import "bulma/css/bulma.min.css";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import MenuEntries from "./components/Navbar/MenuEntries.js";
+import { useState } from "react";
 
 function App() {
+  const [cartQuantity] = useState(5);
   return (
     <>
-      <Navbar menu={MenuEntries} />
+      <Navbar menu={MenuEntries} cartQuantity={cartQuantity} />
       <section className="hero is-info is-medium is-bold">
         <div className="hero-body">
           <div className="container has-text-centered">
