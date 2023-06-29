@@ -5,17 +5,18 @@ import PropTypes from "prop-types";
 import { Container, Form, Icon, Navbar } from "react-bulma-components";
 import DropdownItem from "./DropdownItem.jsx";
 import CartWidget from "./CartWidget.jsx";
+import { useNavigate } from "react-router-dom";
 
 const NavbarComponent = ({ menu, cartQuantity }) => {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Navbar active={isActive}>
       <Container>
         <Navbar.Brand onClick={() => setIsActive(!isActive)}>
           <Navbar.Item
-            renderAs="a"
-            href="#"
+            onClick={() => navigate("/")}
             className="is-size-5 has-text-weight-semibold"
           >
             <img src={menu.brand.img} alt={menu.brand.name} /> {menu.brand.name}
@@ -41,7 +42,10 @@ const NavbarComponent = ({ menu, cartQuantity }) => {
                     subItems={item.subitems}
                   />
                 ) : (
-                  <Navbar.Item key={item.name} href={item.url}>
+                  <Navbar.Item
+                    key={item.name}
+                    onClick={() => navigate(item.url)}
+                  >
                     {item.name}
                   </Navbar.Item>
                 )

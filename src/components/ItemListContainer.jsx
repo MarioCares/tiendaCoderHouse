@@ -1,34 +1,27 @@
 import { Container, Heading, Level, Section } from "react-bulma-components";
 import Group from "./Product/Group.jsx";
-import { useEffect, useState } from "react";
-import { ProductsServices } from "../services/ProductsService.js";
+import Loading from "./Loading.jsx";
+import usePrincipal from "../hooks/usePrincipal.jsx";
 
 const ItemListContainer = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { isLoading, principal } = usePrincipal();
 
-  useEffect(() => {
-    setLoading(true);
-    ProductsServices.getProductsByCategory("DC")
-      .then((data) => {
-        setItems(data);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) return <h1>Cargando</h1>;
+  if (isLoading) return <Loading />;
 
   return (
     <Container>
       <Section>
-        <Level>
-          <Level.Item>
-            <Heading size={1}>DC Cómics</Heading>
-          </Level.Item>
-        </Level>
-        <Group items={items} />
+        {principal &&
+          principal.categories.map((category) => (
+            <>
+              <Level key={category.id} className={"box"}>
+                <Level.Item>
+                  <Heading size={1}>{category.name}</Heading>
+                </Level.Item>
+              </Level>
+              <Group items={category.featured} />
+            </>
+          ))}
       </Section>
     </Container>
   );

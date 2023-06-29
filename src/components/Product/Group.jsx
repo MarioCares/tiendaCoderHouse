@@ -20,13 +20,13 @@ const Group = ({ items }) => {
   useEffect(() => {
     setStock(
       items.reduce((record, item) => {
-        record[item.ISBN] = item.stock;
+        record[item.isbn] = item.stock;
         return record;
       }, {})
     );
     setPreCart(
       items.reduce((record, item) => {
-        record[item.ISBN] = 1;
+        record[item.isbn] = 1;
         return record;
       }, {})
     );
@@ -55,9 +55,9 @@ const Group = ({ items }) => {
     <Columns multiline>
       {items &&
         items.map((item) => (
-          <Columns.Column size={4} key={item.ISBN}>
+          <Columns.Column size={4} key={item.isbn}>
             <Card>
-              <Card.Image src={item.src}></Card.Image>
+              <Card.Image src={item.img}></Card.Image>
               <Card.Content>
                 <Media>
                   <Media.Item align="left">
@@ -67,12 +67,13 @@ const Group = ({ items }) => {
                     <Heading size={4} marginless>
                       {item.name}
                     </Heading>
-                    <Heading size={6} marginless>
+                    {/* <Heading size={6} marginless>
+
                       Escritor: {item.writer}
                     </Heading>
                     <Heading size={6} marginless>
                       Dibujante: {item.penciler}
-                    </Heading>
+                    </Heading> */}
                   </Media.Item>
                 </Media>
                 {/* <Content dangerouslySetInnerHTML={{ __html: item.argument }} /> */}
@@ -97,14 +98,14 @@ const Group = ({ items }) => {
                       rounded
                       colorVariant="light"
                       onClick={() => {
-                        downItem(item.ISBN);
+                        downItem(item.isbn);
                       }}
                     >
                       <FontAwesomeIcon icon={faCaretDown} />
                     </Button>
                   </Level.Item>
                   <Level.Item>
-                    <Heading size={3}>{preCart[item.ISBN]}</Heading>
+                    <Heading size={3}>{preCart[item.isbn]}</Heading>
                   </Level.Item>
                   <Level.Item>
                     <Button
@@ -113,7 +114,7 @@ const Group = ({ items }) => {
                       rounded
                       colorVariant="light"
                       onClick={() => {
-                        upItem(item.ISBN);
+                        upItem(item.isbn);
                       }}
                     >
                       <FontAwesomeIcon icon={faCaretUp} />
@@ -135,7 +136,7 @@ Group.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       argument: PropTypes.string,
-      ISBN: PropTypes.string,
+      isbn: PropTypes.string,
       logo: PropTypes.string,
       name: PropTypes.string,
       penciler: PropTypes.string,
