@@ -8,16 +8,18 @@ import {
 } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage.jsx";
 import Root from "./components/Root.jsx";
-import ItemListContainer from "./components/ItemListContainer.jsx";
+import {
+  ItemDetailContainer,
+  ItemListContainer,
+} from "./components/Product/index.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={"/"} element={<Root />} errorElement={<ErrorPage />}>
       <Route errorElement={<ErrorPage />}>
         <Route index element={<ItemListContainer />} />
-        <Route path={"/editorial/:id"} element={<h1>Editorial X</h1>} />
-        <Route path={"/comic/:id"} element={<h1>Comic X</h1>} />
-        <Route path={"/manga/:id"} element={<h1>Manga X</h1>} />
+        <Route path={"/category/:categoryId"} element={<ItemListContainer />} />
+        <Route path={"/item/:isbn"} element={<ItemDetailContainer />} />
         <Route path={"/ofertas"} element={<h1>Ofertas!</h1>} />
       </Route>
     </Route>

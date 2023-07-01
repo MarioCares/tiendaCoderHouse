@@ -14,7 +14,21 @@ const getPrincipal = async () => {
   });
 };
 
+const getCategory = async (category) => {
+  return await axios.get(`${API_URL}/category/${category}.json`, {
+    method: "GET",
+  });
+};
+
+const getProduct = async (isbn) => {
+  return await axios.get(`${API_URL}/item/${isbn}.json`, {
+    method: "GET",
+  });
+};
+
 export const MainService = {
   getMenuEntries,
   getPrincipal,
+  getCategory,
+  getProduct,
 };

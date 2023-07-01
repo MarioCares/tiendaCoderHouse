@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Columns,
-  /* Content, */
-  Heading,
-  Image,
-  Level,
-  Media,
-} from "react-bulma-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { Columns } from "react-bulma-components";
 import PropTypes from "prop-types";
+import ItemDetail from "./ItemDetail.jsx";
 
 const Group = ({ items }) => {
   const [stock, setStock] = useState({});
@@ -56,76 +46,13 @@ const Group = ({ items }) => {
       {items &&
         items.map((item) => (
           <Columns.Column size={4} key={item.isbn}>
-            <Card>
-              <Card.Image src={item.img}></Card.Image>
-              <Card.Content>
-                <Media>
-                  <Media.Item align="left">
-                    <Image size={64} src={item.logo} />
-                  </Media.Item>
-                  <Media.Item>
-                    <Heading size={4} marginless>
-                      {item.name}
-                    </Heading>
-                    {/* <Heading size={6} marginless>
-
-                      Escritor: {item.writer}
-                    </Heading>
-                    <Heading size={6} marginless>
-                      Dibujante: {item.penciler}
-                    </Heading> */}
-                  </Media.Item>
-                </Media>
-                {/* <Content dangerouslySetInnerHTML={{ __html: item.argument }} /> */}
-                <Level>
-                  <Level.Side align="left">
-                    <Level.Item>
-                      <Heading size={4}>Stock</Heading>
-                    </Level.Item>
-                  </Level.Side>
-                  <Level.Side align="right">
-                    <Level.Item>
-                      <Heading size={4}>{item.stock}</Heading>
-                    </Level.Item>
-                  </Level.Side>
-                </Level>
-                <hr />
-                <Level>
-                  <Level.Item>
-                    <Button
-                      color="success"
-                      outlined
-                      rounded
-                      colorVariant="light"
-                      onClick={() => {
-                        downItem(item.isbn);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faCaretDown} />
-                    </Button>
-                  </Level.Item>
-                  <Level.Item>
-                    <Heading size={3}>{preCart[item.isbn]}</Heading>
-                  </Level.Item>
-                  <Level.Item>
-                    <Button
-                      color="success"
-                      outlined
-                      rounded
-                      colorVariant="light"
-                      onClick={() => {
-                        upItem(item.isbn);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faCaretUp} />
-                    </Button>
-                  </Level.Item>
-                </Level>
-                <Button color="info" colorVariant="light" fullwidth>
-                  Agregar
-                </Button>
-              </Card.Content>
-            </Card>
+            <ItemDetail
+              item={item}
+              quantity={preCart[item.isbn]}
+              isGrouped
+              downItem={downItem}
+              upItem={upItem}
+            />
           </Columns.Column>
         ))}
     </Columns>
@@ -135,14 +62,11 @@ const Group = ({ items }) => {
 Group.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      argument: PropTypes.string,
       isbn: PropTypes.string,
       logo: PropTypes.string,
       name: PropTypes.string,
-      penciler: PropTypes.string,
       src: PropTypes.string,
-      stock: PropTypes.number,
-      writer: PropTypes.string,
+      quantity: PropTypes.number,
     })
   ).isRequired,
 };
