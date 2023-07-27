@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MainService } from "../services/MainService.js";
+import { FirestoreService } from "../services/FirestoreService.js";
 
 const useMenuEntries = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,12 +14,10 @@ const useMenuEntries = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    MainService.getMenuEntries()
-      .then((response) => {
-        setMenuEntries(response.data);
-      })
-      .catch(() => {
-        console.error("Error al obtener NavBar. Utilizando Navbar en blanco");
+    FirestoreService.getMenuEntries(import.meta.env.VITE_CURRENT_MENU)
+      .then((menu) => setMenuEntries(menu))
+      .catch((ex) => {
+        console.error(`${ex.message}. Utilizando Navbar en blanco`);
         setMenuEntries(blankNavBar);
       })
       .finally(() => setIsLoading(false));

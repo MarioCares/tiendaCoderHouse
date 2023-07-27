@@ -1,22 +1,18 @@
 import { useState } from "react";
-import { MainService } from "../services/MainService.js";
+import { FirestoreService } from "../services/FirestoreService.js";
 
 const useProducts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState(null);
 
-  const getProducts = (category) => {
+  const getProducts = async (category) => {
     setIsLoading(true);
     try {
-      if (category !== undefined) {
-        MainService.getCategory(category).then((response) => {
-          setProducts(response.data);
-        });
-      } else {
-        MainService.getPrincipal().then((response) => {
-          setProducts(response.data);
-        });
-      }
+      const response =
+        category !== undefined
+          ? await FirestoreService.getCategory(category)
+          : await FirestoreService.getCategories();
+      setProducts(response);
     } catch (ex) {
       console.error("Error al obtener página principal");
     } finally {

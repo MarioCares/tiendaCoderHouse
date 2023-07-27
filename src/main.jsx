@@ -6,21 +6,30 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import ErrorPage from "./components/ErrorPage.jsx";
-import Root from "./components/Root.jsx";
 import {
   ItemDetailContainer,
   ItemListContainer,
 } from "./components/Product/index.js";
+import { CartProvider } from "./context/CartContext.jsx";
+import { ErrorPage, Root, Cart, Checkout } from "./components/index.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path={"/"} element={<Root />} errorElement={<ErrorPage />}>
+    <Route
+      path={"/"}
+      element={
+        <CartProvider>
+          <Root />
+        </CartProvider>
+      }
+      errorElement={<ErrorPage />}
+    >
       <Route errorElement={<ErrorPage />}>
         <Route index element={<ItemListContainer />} />
         <Route path={"/category/:categoryId"} element={<ItemListContainer />} />
         <Route path={"/item/:isbn"} element={<ItemDetailContainer />} />
-        <Route path={"/ofertas"} element={<h1>Ofertas!</h1>} />
+        <Route path={"/cart"} element={<Cart />} />
+        <Route path={"/checkout"} element={<Checkout />} />
       </Route>
     </Route>
   )

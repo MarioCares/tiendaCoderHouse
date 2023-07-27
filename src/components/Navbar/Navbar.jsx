@@ -7,7 +7,7 @@ import DropdownItem from "./DropdownItem.jsx";
 import CartWidget from "./CartWidget.jsx";
 import { useNavigate } from "react-router-dom";
 
-const NavbarComponent = ({ menu, cartQuantity }) => {
+const NavbarComponent = ({ menu }) => {
   const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
 
@@ -50,7 +50,7 @@ const NavbarComponent = ({ menu, cartQuantity }) => {
                   </Navbar.Item>
                 )
               )}
-            <CartWidget quantity={cartQuantity} />
+            <CartWidget />
           </Navbar.Container>
         </Navbar.Menu>
       </Container>
@@ -77,7 +77,6 @@ NavbarComponent.propTypes = {
       })
     ),
   }).isRequired,
-  cartQuantity: PropTypes.number.isRequired,
 };
 
 export default NavbarComponent;

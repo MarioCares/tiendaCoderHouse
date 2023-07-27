@@ -19,14 +19,14 @@ const ItemListContainer = () => {
     <Section>
       <Container>
         {products ? (
-          products.categories.map((category) => (
+          products.map((category) => (
             <React.Fragment key={category.id}>
               <Level className={"box"}>
                 <Level.Item>
                   <Heading size={1}>{category.name}</Heading>
                 </Level.Item>
               </Level>
-              <Group items={category.featured} />
+              <Group items={category.products} />
             </React.Fragment>
           ))
         ) : (

@@ -16,10 +16,107 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { CartContext } from "../../context/CartContext.jsx";
 
 const ItemDetail = ({ item, isGrouped, upItem, downItem, quantity }) => {
+  const [isCartUpdated, setIsCartUpdated] = useState(false);
+  const { addItem } = useContext(CartContext);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    addItem(
+      {
+        isbn: item.isbn,
+        name: item.name,
+        price: item.price,
+        img: item.img,
+      },
+      quantity
+    );
+    setIsCartUpdated(true);
+  };
+
+  const GoToCart = () => (
+    <Level>
+      <Level.Item>
+        <Button renderAs={Link} to="/cart" color="success">
+          Terminar Compra
+        </Button>
+      </Level.Item>
+    </Level>
+  );
+
+  const AddToCartButtons = () => (
+    <>
+      <Level>
+        <Level.Item>
+          <Button
+            color="success"
+            outlined
+            rounded
+            colorVariant="light"
+            onClick={() => {
+              downItem(item.isbn);
+            }}
+          >
+            <FontAwesomeIcon icon={faCaretDown} />
+          </Button>
+        </Level.Item>
+        <Level.Item>
+          <Heading size={3}>{quantity}</Heading>
+        </Level.Item>
+        <Level.Item>
+          <Button
+            color="success"
+            outlined
+            rounded
+            colorVariant="light"
+            onClick={() => {
+              upItem(item.isbn);
+            }}
+          >
+            <FontAwesomeIcon icon={faCaretUp} />
+          </Button>
+        </Level.Item>
+      </Level>
+      <Level>
+        {isGrouped && (
+          <Level.Item>
+            <Button
+              color="warning"
+              colorVariant="light"
+              fullwidth
+              onClick={() => isGrouped && navigate(`/item/${item.isbn}`)}
+            >
+              <span className={"icon-text"}>
+                <span>Detalles</span>
+                <Icon>
+                  <FontAwesomeIcon icon={faCircleInfo} />
+                </Icon>
+              </span>
+            </Button>
+          </Level.Item>
+        )}
+        <Level.Item>
+          <Button
+            color="info"
+            colorVariant="light"
+            fullwidth
+            onClick={handleClick}
+          >
+            <span className={"icon-text"}>
+              <span>Agregar</span>
+              <Icon>
+                <FontAwesomeIcon icon={faShoppingCart} />
+              </Icon>
+            </span>
+          </Button>
+        </Level.Item>
+      </Level>
+    </>
+  );
 
   return (
     <Card>
@@ -82,66 +179,7 @@ const ItemDetail = ({ item, isGrouped, upItem, downItem, quantity }) => {
           </Level.Side>
         </Level>
         <hr />
-        <Level>
-          <Level.Item>
-            <Button
-              color="success"
-              outlined
-              rounded
-              colorVariant="light"
-              onClick={() => {
-                downItem(item.isbn);
-              }}
-            >
-              <FontAwesomeIcon icon={faCaretDown} />
-            </Button>
-          </Level.Item>
-          <Level.Item>
-            <Heading size={3}>{quantity}</Heading>
-          </Level.Item>
-          <Level.Item>
-            <Button
-              color="success"
-              outlined
-              rounded
-              colorVariant="light"
-              onClick={() => {
-                upItem(item.isbn);
-              }}
-            >
-              <FontAwesomeIcon icon={faCaretUp} />
-            </Button>
-          </Level.Item>
-        </Level>
-        <Level>
-          {isGrouped && (
-            <Level.Item>
-              <Button
-                color="warning"
-                colorVariant="light"
-                fullwidth
-                onClick={() => isGrouped && navigate(`/item/${item.isbn}`)}
-              >
-                <span className={"icon-text"}>
-                  <span>Detalles</span>
-                  <Icon>
-                    <FontAwesomeIcon icon={faCircleInfo} />
-                  </Icon>
-                </span>
-              </Button>
-            </Level.Item>
-          )}
-          <Level.Item>
-            <Button color="info" colorVariant="light" fullwidth>
-              <span className={"icon-text"}>
-                <span>Agregar</span>
-                <Icon>
-                  <FontAwesomeIcon icon={faShoppingCart} />
-                </Icon>
-              </span>
-            </Button>
-          </Level.Item>
-        </Level>
+        {isCartUpdated ? <GoToCart /> : <AddToCartButtons />}
       </Card.Content>
     </Card>
   );

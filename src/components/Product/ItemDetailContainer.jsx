@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import useItem from "../../hooks/useItem.jsx";
 import Loading from "../Loading.jsx";
 import ItemDetail from "./ItemDetail.jsx";
+import NotFound from "./NotFound.jsx";
 
 const ItemDetailContainer = () => {
   const [quantity, setQuantity] = useState(1);
@@ -33,7 +34,7 @@ const ItemDetailContainer = () => {
       <Container>
         <Columns>
           <Columns.Column size={5} offset={3}>
-            {product && (
+            {product ? (
               <ItemDetail
                 item={product}
                 isGrouped={false}
@@ -41,6 +42,8 @@ const ItemDetailContainer = () => {
                 upItem={upItem}
                 quantity={quantity}
               />
+            ) : (
+              <NotFound isbn={isbn} />
             )}
           </Columns.Column>
         </Columns>

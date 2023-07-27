@@ -1,25 +1,24 @@
 import { Icon, Navbar, Tag } from "react-bulma-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import PropTypes from "prop-types";
+import { useContext } from "react";
+import { CartContext } from "../../context/CartContext.jsx";
+import { Link } from "react-router-dom";
 
-const CartWidget = ({ quantity }) => {
+const CartWidget = () => {
+  const { cart } = useContext(CartContext);
   return (
-    <Navbar.Item>
+    <Navbar.Item renderAs={Link} to="/cart">
       <span className="icon-text">
         <Icon align="left">
           <FontAwesomeIcon icon={faShoppingCart} />
         </Icon>
         <Tag rounded color="danger">
-          {quantity}
+          {cart.length}
         </Tag>
       </span>
     </Navbar.Item>
   );
-};
-
-CartWidget.propTypes = {
-  quantity: PropTypes.number.isRequired,
 };
 
 export default CartWidget;
