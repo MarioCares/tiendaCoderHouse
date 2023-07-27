@@ -3,6 +3,7 @@ const SimpleCart = (cart) => {
     isbn: product.isbn,
     name: product.name,
     price: product.price,
+    quantity: product.quantity,
   }));
 };
 
